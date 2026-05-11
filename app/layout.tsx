@@ -52,7 +52,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="bg-[var(--bg-primary)] text-[var(--text-primary)] antialiased selection:bg-blue-500/30">
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <Preloader />
           {/* Cinematic Grain Overlay */}
           <div className="fixed inset-0 pointer-events-none z-[9999] dark:opacity-[0.03] opacity-0 mix-blend-overlay">
