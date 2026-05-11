@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-industrial-black: var(--bg-primary);
+  --color-industrial-gray: var(--bg-secondary);
+  --color-primary-glow: rgba(37, 99, 235, 0.45);
+  --color-accent-glow: rgba(6, 182, 212, 0.35);
+  
+  --font-satoshi: "Satoshi", sans-serif;
+  --font-inter: "Inter", sans-serif;
+  --font-teko: "Teko", sans-serif;
+  
+  --breakpoint-xs: 480px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg-primary: #FCFBF8;
+    --bg-secondary: #F3F0E6;
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --border-color: rgba(0, 0, 0, 0.08);
+    --card-bg: rgba(255, 255, 255, 0.9);
+  }
+
+  .dark {
+    --bg-primary: #050505;
+    --bg-secondary: #0a0a0a;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.4);
+    --border-color: rgba(255, 255, 255, 0.05);
+    --card-bg: rgba(255, 255, 255, 0.02);
+  }
+
+  body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)] selection:bg-blue-500/30 overflow-x-hidden transition-colors duration-500;
+    font-family: var(--font-inter);
+    -webkit-font-smoothing: antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-teko);
+    text-transform: uppercase;
+    @apply tracking-wide leading-none text-[var(--text-primary)];
+  }
+
+  /* Custom Diagonal Stripe Text Effect (from user screenshot) */
+  .text-stripe {
+    color: transparent !important;
+    background: repeating-linear-gradient(
+      45deg,
+      #3b82f6,
+      #3b82f6 3px,
+      transparent 3px,
+      transparent 8px
+    ) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+  .dark .text-stripe {
+    background: repeating-linear-gradient(
+      45deg,
+      #60a5fa,
+      #60a5fa 3px,
+      transparent 3px,
+      transparent 8px
+    ) !important;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+  }
+
+  /* Custom Scrollbar - Premium Authority */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { @apply bg-[var(--bg-primary)]; }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2563eb, #06b6d4);
+    border-radius: 10px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-axion {
+    @apply max-w-[1440px] mx-auto px-6 md:px-12 lg:px-20;
+  }
+
+  .section {
+    @apply py-24 md:py-32 lg:py-40;
+  }
+
+  /* Cinematic Glassmorphism */
+  .glass-premium {
+    @apply bg-[var(--bg-secondary)]/40 backdrop-blur-2xl border border-[var(--border-color)] shadow-2xl;
+    background-image: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+  }
+
+  /* Metallic Reflection Effect */
+  .metallic-card {
+    @apply relative overflow-hidden bg-[var(--bg-secondary)] border border-[var(--border-color)] transition-all duration-500;
+    background-image: 
+      linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 50%, rgba(255,255,255,0.02) 100%),
+      radial-gradient(circle at 0% 0%, rgba(255,255,255,0.03) 0%, transparent 50%);
+  }
+
+  /* Typography Utilities */
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500;
+    filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.2));
+  }
+
+  .text-huge {
+    @apply text-5xl md:text-7xl lg:text-9xl font-black uppercase tracking-tighter;
+  }
+
+  /* Button Design - Industrial Premium */
+  .btn-primary {
+    @apply bg-blue-600 text-white px-8 py-4 rounded-full font-bold tracking-tight transition-all duration-500 
+           shadow-[0_0_20px_-5px_rgba(37,99,235,0.45)] hover:bg-blue-500 hover:shadow-[0_0_40px_-5px_rgba(37,99,235,0.45)] active:scale-95;
+    font-family: var(--font-satoshi);
+  }
+
+  .btn-secondary {
+    @apply bg-[var(--bg-secondary)] border border-[var(--border-color)] text-[var(--text-primary)] px-8 py-4 rounded-full font-bold tracking-tight 
+           transition-all duration-500 hover:bg-[var(--bg-primary)] hover:border-blue-500 active:scale-95 shadow-sm;
+    font-family: var(--font-satoshi);
+  }
+}
+
+@utility industrial-grid {
+  background-image: 
+    linear-gradient(currentColor 1px, transparent 1px),
+    linear-gradient(90deg, currentColor 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@utility hero-glow {
+  background: radial-gradient(circle at center, rgba(37,99,235,0.45) 0%, transparent 70%);
+}
+
+@utility image-8k {
+  @apply transition-all duration-700;
+  :root.dark & {
+    filter: contrast(1.15) brightness(1.05) saturate(0.9);
+  }
+  :root.dark &:hover {
+    filter: contrast(1.2) brightness(1.1) saturate(1);
+  }
+}
+
+@utility cutout-mask {
+  clip-path: polygon(10% 0%, 100% 0%, 90% 100%, 0% 100%);
+}
+
+@keyframes scroll-up {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes scroll-down {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.animate-scroll-up {
+  animation: scroll-up 40s linear infinite;
+}
+
+.animate-scroll-down {
+  animation: scroll-down 40s linear infinite;
+}
+
+/* Footer logo override — force logo to be purely black in all themes */
+.footer-logo-override img {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+.footer-logo-override > div > div:first-child {
+  filter: none !important;
+  mix-blend-mode: normal !important;
+}
+html:not(.dark) .footer-logo-override span {
+  color: #000 !important;
+}
+html:not(.dark) .footer-logo-override .h-\[1px\] {
+  background-color: rgba(0, 0, 0, 0.3) !important;
 }
